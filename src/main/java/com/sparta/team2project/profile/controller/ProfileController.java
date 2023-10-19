@@ -2,7 +2,7 @@ package com.sparta.team2project.profile.controller;
 
 import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.security.UserDetailsImpl;
-import com.sparta.team2project.profile.ProfileService;
+import com.sparta.team2project.profile.service.ProfileService;
 import com.sparta.team2project.profile.dto.PasswordRequestDto;
 import com.sparta.team2project.profile.dto.ProfileRequestDto;
 import com.sparta.team2project.profile.dto.ProfileResponseDto;

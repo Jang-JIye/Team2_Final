@@ -1,7 +1,6 @@
 package com.sparta.team2project.profile.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sparta.team2project.profile.Profile;
 import com.sparta.team2project.users.Users;
 import lombok.Getter;
 

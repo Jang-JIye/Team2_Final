@@ -1,4 +1,4 @@
-package com.sparta.team2project.profile;
+package com.sparta.team2project.profile.entity;
 
 import com.sparta.team2project.users.Users;
 import jakarta.persistence.*;

@@ -1,4 +1,4 @@
-package com.sparta.team2project.profile;
+package com.sparta.team2project.profile.service;
 
 import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
@@ -7,6 +7,8 @@ import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
 import com.sparta.team2project.profile.dto.PasswordRequestDto;
 import com.sparta.team2project.profile.dto.ProfileRequestDto;
 import com.sparta.team2project.profile.dto.ProfileResponseDto;
+import com.sparta.team2project.profile.entity.Profile;
+import com.sparta.team2project.profile.repository.ProfileRepository;
 import com.sparta.team2project.users.UserRepository;
 import com.sparta.team2project.users.Users;
 import lombok.RequiredArgsConstructor;
@@ -58,11 +60,11 @@ public class ProfileService {
         // 현재 비밀번호 확인
         String currentPassword = requestDto.getCurrentPassword();
         if (!passwordEncoder.matches(currentPassword, findProfile.getUsers().getPassword())) {
-            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.CURRENT_PASSWORD_NOT_MATCH);
         }
         // 수정할 비밀번호가 현재 비밀번호와 같은 경우
         if (requestDto.getUpdatePassword().equals(requestDto.getCurrentPassword())) {
-            throw new IllegalArgumentException("현재 비밀번호와 바꾸려는 비밀번호가 같습니다.");
+            throw new CustomException(ErrorCode.SAME_PASSWORD);
         }
 
         // 새로운 비밀번호 업데이트
@@ -72,7 +74,7 @@ public class ProfileService {
         findProfile.getUsers().updatePassword(requestDto, passwordEncoder);
         profileRepository.save(findProfile);
 
-        MessageResponseDto responseDto = new MessageResponseDto("비밀번호 수정 성공", 200);
+        MessageResponseDto responseDto = new MessageResponseDto("내정보 수정 완료", 200);
         return ResponseEntity.ok(responseDto);
     }
 

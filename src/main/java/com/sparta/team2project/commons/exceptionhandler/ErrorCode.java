@@ -30,7 +30,9 @@ public enum ErrorCode {
     //ValidNumber(이메일 인증 관련)
     INVALID_VALID_TOKEN(HttpStatus.BAD_REQUEST, "이메일로 인증번호를 찾을 수 없습니다."),
     VALID_TIME_OVER(HttpStatus.BAD_REQUEST, "인증 시간이 초과되었습니다"),
-    WRONG_NUMBER(HttpStatus.BAD_REQUEST, "인증번호가 일치하지 않습니다.");
+    WRONG_NUMBER(HttpStatus.BAD_REQUEST, "인증번호가 일치하지 않습니다."),
+    CURRENT_PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
+    SAME_PASSWORD(HttpStatus.BAD_REQUEST,"현재 비밀번호와 바꾸려는 비밀번호가 같습니다.");
 
 
     private final HttpStatus statusCode;
