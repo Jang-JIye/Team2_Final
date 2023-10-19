@@ -1,6 +1,7 @@
 package com.sparta.team2project.users;
 
 import com.sparta.team2project.commons.entity.UserRoleEnum;
+import com.sparta.team2project.profile.dto.PasswordRequestDto;
 import com.sparta.team2project.profile.dto.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class Users {
         }
     }
 
-    public void updatePassword(ProfileRequestDto requestDto, PasswordEncoder passwordEncoder) {
+    public void updatePassword(PasswordRequestDto requestDto, PasswordEncoder passwordEncoder) {
         // 비밀번호를 인코딩하여 저장
         this.password = passwordEncoder.encode(requestDto.getUpdatePassword());
     }

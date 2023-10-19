@@ -1,7 +1,9 @@
-package com.sparta.team2project.profile;
+package com.sparta.team2project.profile.controller;
 
 import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.security.UserDetailsImpl;
+import com.sparta.team2project.profile.ProfileService;
+import com.sparta.team2project.profile.dto.PasswordRequestDto;
 import com.sparta.team2project.profile.dto.ProfileRequestDto;
 import com.sparta.team2project.profile.dto.ProfileResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,7 +39,7 @@ public class ProfileController {
     //프로필 수정하기(비밀번호)
     @Operation(summary = "마이 페이지 프로필 수정(비밀번호)", description = "마이 페이지 (비밀번호)프로필 수정 api 입니다.")
     @PutMapping("/update-password")
-    public ResponseEntity<MessageResponseDto> updatePassword(@RequestBody ProfileRequestDto requestDto,
+    public ResponseEntity<MessageResponseDto> updatePassword(@RequestBody PasswordRequestDto requestDto,
                                                              @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return profileService.updatePassword(requestDto, userDetails.getUsers());
     }

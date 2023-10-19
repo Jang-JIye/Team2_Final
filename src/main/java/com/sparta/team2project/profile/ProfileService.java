@@ -4,6 +4,7 @@ import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
 import com.sparta.team2project.commons.exceptionhandler.CustomException;
 import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
+import com.sparta.team2project.profile.dto.PasswordRequestDto;
 import com.sparta.team2project.profile.dto.ProfileRequestDto;
 import com.sparta.team2project.profile.dto.ProfileResponseDto;
 import com.sparta.team2project.users.UserRepository;
@@ -49,7 +50,7 @@ public class ProfileService {
 
     // 비밀번호 수정하기
     @Transactional
-    public ResponseEntity<MessageResponseDto> updatePassword(ProfileRequestDto requestDto, Users users) {
+    public ResponseEntity<MessageResponseDto> updatePassword(PasswordRequestDto requestDto, Users users) {
         Users existUser = checkUser(users); // 유저 확인
         checkAuthority(existUser, users); //권한 확인
         Profile findProfile = checkProfile(users); // 마이페이지 찾기
