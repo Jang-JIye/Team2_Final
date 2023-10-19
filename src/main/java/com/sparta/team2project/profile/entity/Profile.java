@@ -15,14 +15,14 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
+    private String aboutMe;
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "users_id")
     private Users users;
-
-
-        public Profile(Users users) {
+    public Profile(Users users) {
         this.users = users;
 
     }
 }
-
