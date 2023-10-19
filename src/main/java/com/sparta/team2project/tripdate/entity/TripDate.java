@@ -42,7 +42,7 @@ public class TripDate {
         this.chosenDate = tripDateRequestDto.getChosenDate();
         this.posts = posts;
         this.subTitle = tripDateRequestDto.getSubTitle();
-        this.schedulesList = tripDateRequestDto.getSchedulesList();
+        //this.schedulesList = tripDateRequestDto.getSchedulesList();
 
     }
 

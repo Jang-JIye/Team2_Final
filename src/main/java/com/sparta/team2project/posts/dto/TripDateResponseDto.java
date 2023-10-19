@@ -13,11 +13,13 @@ import java.util.stream.Collectors;
 @Getter
 @RequiredArgsConstructor
 public class TripDateResponseDto {
+    private final Long tripDateId;
     private final LocalDate chosenDate;
     private final String subTitle;
     private final List<SchedulesResponseDto> schedulesList;
 
     public TripDateResponseDto(TripDate tripDate){
+        this.tripDateId = tripDate.getId();
         this.chosenDate = tripDate.getChosenDate();
         this.subTitle = tripDate.getSubTitle();
         this.schedulesList = schedulesToDto(tripDate.getSchedulesList());

@@ -45,11 +45,10 @@ public class RepliesController {
 
     // 마이페이지에서 내가 쓴 대댓글 조회
     @Operation(summary = "사용자별 대댓글 조회", description = "사용자가 쓴 대댓글 조회 api 입니다.")
-    @GetMapping("/comments/{commentId}/repliesme")
-    public ResponseEntity<Slice<RepliesMeResponseDto>> repliesMeList(@PathVariable("commentId") Long commentId,
-                                                                    @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                                    @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(repliesService.repliesMeList(commentId, userDetails.getUsers(), pageable));
+    @GetMapping("/repliesme")
+    public ResponseEntity<Slice<RepliesMeResponseDto>> repliesMeList(@AuthenticationPrincipal UserDetailsImpl userDetails,
+                                                                     @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(repliesService.repliesMeList(userDetails.getUsers(), pageable));
     }
 
     // 대댓글 수정

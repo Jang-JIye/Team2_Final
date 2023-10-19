@@ -45,11 +45,10 @@ public class CommentsController {
 
     // 마이페이지에서 내가 쓴 댓글 조회
     @Operation(summary = "사용자별 댓글 조회", description = "사용자가 쓴 댓글 조회 api 입니다.")
-    @GetMapping("/posts/{postId}/commentsme")
-    public ResponseEntity<Slice<CommentsMeResponseDto>> commentsMeList(@PathVariable("postId") Long postId,
-                                                                      @AuthenticationPrincipal UserDetailsImpl userDetails,
+    @GetMapping("/commentsme")
+    public ResponseEntity<Slice<CommentsMeResponseDto>> commentsMeList(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                                        @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(commentsService.commentsMeList(postId, userDetails.getUsers(), pageable));
+        return ResponseEntity.ok(commentsService.commentsMeList(userDetails.getUsers(), pageable));
     }
 
     // 댓글 수정

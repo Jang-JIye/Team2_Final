@@ -62,11 +62,10 @@ public class RepliesService {
     }
 
     // 마이페이지에서 내가 쓴 대댓글 조회
-    public Slice<RepliesMeResponseDto> repliesMeList(Long commentId,
-                                                     Users users,
+    public Slice<RepliesMeResponseDto> repliesMeList(Users users,
                                                      Pageable pageable) {
 
-        Slice<Replies> repliesMeList = repliesRepository.findByComments_IdAndEmailOrderByCreatedAtDesc(commentId, users.getEmail(), pageable);
+        Slice<Replies> repliesMeList = repliesRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable);
 
         if (repliesMeList.isEmpty()) {
             throw new CustomException(ErrorCode.COMMENTS_NOT_EXIST); // 존재하지 않는 댓글입니다
@@ -75,7 +74,7 @@ public class RepliesService {
         List<RepliesMeResponseDto> RepliesMeResponseDtoList = new ArrayList<>();
 
         for (Replies replies : repliesMeList) {
-            RepliesMeResponseDtoList.add(new RepliesMeResponseDto(replies, replies.getComments().getPosts().getTitle(), replies.getNickname()));
+            RepliesMeResponseDtoList.add(new RepliesMeResponseDto(replies, replies.getComments().getPosts().getTitle()));
         }
 
         return new SliceImpl<>(RepliesMeResponseDtoList, pageable, repliesMeList.hasNext());

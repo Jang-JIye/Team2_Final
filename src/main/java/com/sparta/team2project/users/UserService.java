@@ -84,13 +84,13 @@ public class UserService {
 
         //해당 이메일로 전에 인증번호를 요청했다면 전 인증번호를 db에서 삭제함
         Optional<ValidNumber> pastNumber = validNumberRepository.findByEmail(email);
-        if(pastNumber.isPresent()){
+        if (pastNumber.isPresent()) {
             validNumberRepository.delete(pastNumber.get());
         }
 
         Optional<Users> checkUsers = userRepository.findByEmail(email);
 
-        if(checkUsers.isPresent()){
+        if (checkUsers.isPresent()) {
             throw new CustomException(ErrorCode.DUPLICATED_EMAIL); //이메일로 인증번호를 찾을 수 없음
         }
         if (email == null) {
@@ -99,7 +99,7 @@ public class UserService {
         // 인증한 이메일이 가입시 사용할 이메일이어야 함. -> 회원가입 기능에서 ValidNumber.email과 Users.email이 일치해야 함.
 
 
-        int number = (int)(Math.random() * 899999) + 100000; // 6자리 난수 생성(인증번호)
+        int number = (int) (Math.random() * 899999) + 100000; // 6자리 난수 생성(인증번호)
 
         LocalTime now = LocalTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HHmmss"); // 현재시간에서 HHmmss 형식으로 시간을 가져옴
@@ -123,20 +123,20 @@ public class UserService {
 
         Optional<ValidNumber> validNumberEmail = validNumberRepository.findByEmail(email);
 
-        if(!validNumberEmail.isPresent()){
+        if (!validNumberEmail.isPresent()) {
             throw new CustomException(ErrorCode.INVALID_VALID_TOKEN); //이메일로 인증번호를 찾을 수 없음
         }
 
         ValidNumber validNumber = validNumberEmail.get();
         double time = validNumber.getTime();
 
-        if(formatedNow - time >= 300){ // 인증번호 발급 받은지 3분 초과
+        if (formatedNow - time >= 300) { // 인증번호 발급 받은지 3분 초과
             throw new CustomException(ErrorCode.VALID_TIME_OVER);
         }
 //        number != validNumber.getValidNumber()
-        if(validNumber.getValidNumber() != validNumberRequestDto.getValidNumber()){
+        if (validNumber.getValidNumber() != validNumberRequestDto.getValidNumber()) {
             throw new CustomException(ErrorCode.WRONG_NUMBER);
-        }else{
+        } else {
             return checkNumber; // 인증성공시 true 값이 반환됩니다.
         }
     }
@@ -157,16 +157,16 @@ public class UserService {
     public ResponseEntity<MessageResponseDto> login(LoginRequestDto requestDto, HttpServletResponse response) {
         Users users = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
                 new CustomException(ErrorCode.ID_NOT_FOUND)); // 이메일 여부 확인
-        if(!passwordEncoder.matches(requestDto.getPassword(), users.getPassword())){
+        if (!passwordEncoder.matches(requestDto.getPassword(), users.getPassword())) {
             throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH); // 해당 이메일의 비번이 맞는지 확인
         }
         String accessToken = jwtUtil.createToken(users.getEmail(), users.getUserRole()); // 토큰 생성
+//        String refreshToken = jwtUtil.createRefreshToken(users.getEmail(), users.getUserRole()); // 토큰 생성
 
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, accessToken); // 생성된 토큰 헤더에 넣기
+//        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, refreshToken); // 생성된 토큰 헤더에 넣기
 
 
-        return ResponseEntity.ok(new MessageResponseDto("로그인 성공",HttpServletResponse.SC_OK));
+        return ResponseEntity.ok(new MessageResponseDto("로그인 성공", HttpServletResponse.SC_OK));
     }
-
 }
-

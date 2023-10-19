@@ -2,21 +2,19 @@ package com.sparta.team2project.posts.controller;
 
 import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.security.UserDetailsImpl;
+
+import com.sparta.team2project.posts.dto.PostMessageResponseDto;
 import com.sparta.team2project.posts.dto.PostResponseDto;
 import com.sparta.team2project.posts.dto.TotalRequestDto;
 import com.sparta.team2project.posts.dto.UpdateRequestDto;
-import com.sparta.team2project.posts.service.PostsService;
 
+import com.sparta.team2project.posts.dto.*;
+
+import com.sparta.team2project.posts.service.PostsService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +32,10 @@ public class PostsController {
     //게시글 생성
     @Operation(summary = "게시글 생성 ", description = "게시글 생성 api 입니다.")
     @PostMapping("/posts") // 게시글 생성
-    public ResponseEntity<MessageResponseDto> createPost(@RequestBody TotalRequestDto totalRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
+    public ResponseEntity<PostMessageResponseDto> createPost(@RequestBody TotalRequestDto totalRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails){
         return ResponseEntity.ok(postsService.createPost(totalRequestDto,userDetails.getUsers()));
     }
+  
     // 단일 게시물 조회
     @Operation(summary = "게시글 상세 조회 ", description = "게시글 상세 조회 api 입니다.")
     @GetMapping("/posts/{postId}")
@@ -46,8 +45,15 @@ public class PostsController {
     // 게시글 전체 조회
     @Operation(summary = "게시글 전체 조회 ", description = "게시글 전체 조회 api 입니다.")
     @GetMapping("/posts")
-    public ResponseEntity<Slice<PostResponseDto>> getAllPosts(@PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(postsService.getAllPosts(pageable));
+    public ResponseEntity<Slice<PostResponseDto>> getAllPosts(@RequestParam int page,@RequestParam int size) {
+        return ResponseEntity.ok(postsService.getAllPosts(page,size));
+    }
+
+    // 사용자별 게시글 전체 조회
+    @Operation(summary = "사용자별 게시글 전체 조회 ", description = "사용자별 게시글 전체 조회 api 입니다.")
+    @GetMapping("/user/posts")
+    public ResponseEntity<List<PostResponseDto>> getUserPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(postsService.getUserPosts(userDetails.getUsers()));
     }
 
     // 게시물 검색 조회
@@ -59,6 +65,12 @@ public class PostsController {
     @Operation(summary = " 좋아요 순 게시글 조회 ", description = "TOP3 좋아요 순 게시글 조회 api 입니다.")
     @GetMapping("/posts/rank")
     public ResponseEntity<List<PostResponseDto>> getRankPosts(){return ResponseEntity.ok(postsService.getRankPosts());}
+
+    // 사용자가 좋아요 누른 게시글 조회
+    @Operation(summary = " 사용자가 좋아요 한 게시글 조회 ", description = "사용자가 좋아요 한 게시글 조회 api 입니다.")
+    @GetMapping("/posts/like")
+    public ResponseEntity<List<PostResponseDto>> getUserLikePosts(@AuthenticationPrincipal UserDetailsImpl userDetails){return ResponseEntity.ok(postsService.getUserLikePosts(userDetails.getUsers()));}
+
 
     // 좋아요 기능
     @Operation(summary = " 좋아요 기능 ", description = "좋아요 클릭시 1 좋아요 또 누르면 1 취소하는 api 입니다.")

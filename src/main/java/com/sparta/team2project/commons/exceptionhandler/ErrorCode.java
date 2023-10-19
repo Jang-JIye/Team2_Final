@@ -22,6 +22,8 @@ public enum ErrorCode {
     DUPLICATED_NICKNAME(HttpStatus.BAD_REQUEST, "중복된 닉네임입니다."),
     PLAN_NOT_FOUND(HttpStatus.BAD_REQUEST, "없는 여행일정입니다."),
     S3_NOT_UPLOAD(HttpStatus.BAD_REQUEST,"S3에 업로드가 되지 않았습니다."),
+    EXCEED_PICTURES_LIMIT(HttpStatus.BAD_REQUEST, "업로드할 수 있는 사진은 최대 3개 입니다."),
+    FILE_SIZE_LIMIT(HttpStatus.BAD_REQUEST, "업로드할 수 있는 사진의 최대 용량은 총 10MB입니다."),
     PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "잘못된 패스워드입니다."),
     EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지 않은 이메일입니다."),
     POST_NOT_SEARCH(HttpStatus.BAD_REQUEST, "검색결과가 없습니다."),
@@ -31,6 +33,11 @@ public enum ErrorCode {
     INVALID_VALID_TOKEN(HttpStatus.BAD_REQUEST, "이메일로 인증번호를 찾을 수 없습니다."),
     VALID_TIME_OVER(HttpStatus.BAD_REQUEST, "인증 시간이 초과되었습니다"),
     WRONG_NUMBER(HttpStatus.BAD_REQUEST, "인증번호가 일치하지 않습니다."),
+    INVALID_PASSWORD(HttpStatus.BAD_REQUEST,"비밀번호는 대소문자, 숫자, 특수문자( !@#$%^&* )로만 구성된 8~15자의 문자열이어야 합니다."),
+    EMAIL_NOT_VALIDATED(HttpStatus.BAD_REQUEST, "이메일 인증이 완료되지 않은 이메일입니다."),
+    EMAIL_VERIFICATION_FAILED(HttpStatus.BAD_REQUEST, "이메일을 인증해주세요."),
+    INVALID_NICKNAME(HttpStatus.BAD_REQUEST,"닉네임은 2글자 이상, 10글자 이하의 영문자, 숫자, 또는 한글로만 구성되어야 합니다."),
+
     CURRENT_PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "현재 비밀번호가 일치하지 않습니다."),
     SAME_PASSWORD(HttpStatus.BAD_REQUEST,"현재 비밀번호와 바꾸려는 비밀번호가 같습니다.");
 

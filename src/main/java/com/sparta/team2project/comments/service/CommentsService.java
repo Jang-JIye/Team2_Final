@@ -60,11 +60,10 @@ public class CommentsService {
     }
 
    // 마이페이지에서 내가 쓴 댓글 조회
-    public Slice<CommentsMeResponseDto> commentsMeList (Long postId,
-                                                        Users users,
+    public Slice<CommentsMeResponseDto> commentsMeList (Users users,
                                                         Pageable pageable) {
 
-        Slice<Comments> commentsMeList = commentsRepository.findByPosts_IdAndEmailOrderByCreatedAtDesc(postId, users.getEmail(), pageable);
+        Slice<Comments> commentsMeList = commentsRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable);
 
         if (commentsMeList.isEmpty()) {
             throw new CustomException(ErrorCode.POST_NOT_EXIST); // 존재하지 않는 게시글입니다
@@ -73,7 +72,7 @@ public class CommentsService {
         List<CommentsMeResponseDto> CommentsMeResponseDtoList = new ArrayList<>();
 
         for (Comments comments : commentsMeList) {
-            CommentsMeResponseDtoList.add(new CommentsMeResponseDto(comments, comments.getPosts().getTitle(), comments.getNickname()));
+            CommentsMeResponseDtoList.add(new CommentsMeResponseDto(comments, comments.getPosts().getTitle()));
         }
 
         return new SliceImpl<>(CommentsMeResponseDtoList, pageable, commentsMeList.hasNext());

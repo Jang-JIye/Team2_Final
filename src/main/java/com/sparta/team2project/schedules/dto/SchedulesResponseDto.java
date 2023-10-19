@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Getter
 @RequiredArgsConstructor
 public class SchedulesResponseDto {
+    private Long schedulesId;
 //    private LocalDate chosenDate; // 해당 스케줄에 대한 요일 반환
     private SchedulesCategory schedulesCategory;
 //    private String details;
@@ -24,6 +25,7 @@ public class SchedulesResponseDto {
     private String referenceURL;
 
     public SchedulesResponseDto(Schedules schedules){
+        this.schedulesId = schedules.getId();
 //        this.chosenDate = schedules.getTripDate().getChosenDate(); // 해당 스케줄에 대한 요일 반환
         this.schedulesCategory = schedules.getSchedulesCategory();
 //        this.details = schedules.getDetails();

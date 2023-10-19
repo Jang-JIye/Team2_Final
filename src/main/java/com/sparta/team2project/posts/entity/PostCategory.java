@@ -5,10 +5,11 @@ import lombok.Getter;
 @Getter
 public enum PostCategory {
 
-    우정,
-    가족여행,
-    커플,
-    나홀로,
-    식도락;
+    가족,
+    친구,
+    연인,
+    친척,
+    반려동물,
+    단체;
 
 }

@@ -1,5 +1,6 @@
 package com.sparta.team2project.posts.dto;
 
+import com.sparta.team2project.schedules.dto.SchedulesRequestDto;
 import com.sparta.team2project.schedules.entity.Schedules;
 import lombok.Getter;
 
@@ -10,5 +11,4 @@ import java.util.List;
 public class TripDateRequestDto {
     private LocalDate chosenDate;
     private String subTitle;
-    private List<Schedules> schedulesList;
 }

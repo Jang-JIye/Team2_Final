@@ -3,9 +3,11 @@ package com.sparta.team2project.postslike.entity;
 import com.sparta.team2project.posts.entity.Posts;
 import com.sparta.team2project.users.Users;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Getter
 @NoArgsConstructor
 @Table(name = "posts_like")
 public class PostsLike {

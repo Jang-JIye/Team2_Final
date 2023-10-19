@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class CommentsResponseDto {
-    private Long commnetId;
+    private Long commentId;
     private String contents;
     private String nickname;
     @JsonIgnore
@@ -19,7 +19,7 @@ public class CommentsResponseDto {
 
 
     public CommentsResponseDto(Comments comments, String users) {
-        this.commnetId = comments.getId();
+        this.commentId = comments.getId();
         this.contents = comments.getContents();
         this.nickname = users;
         this.createAt = comments.getCreatedAt();

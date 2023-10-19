@@ -8,6 +8,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class Team2projectApplication {
 
+	// EC2 Metadata 비활성화
+	static {
+		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(Team2projectApplication.class, args);
 	}
