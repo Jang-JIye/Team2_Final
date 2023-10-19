@@ -59,7 +59,7 @@ public class UserService {
 
         // 기본값 설정
         String nickName = "익명";
-        String profileImg = "https://blog.kakaocdn.net/dn/ckw6CM/btsxrWYLmoZ/IW4PRNSDLAWNZEKkZO0qM1/img.png";
+        String profileImg = "https://blog.kakaocdn.net/dn/b0SLv8/btsyLoUxvAs/SKsGiOc7TzkebNvH4ZQE9K/img.png";
         // 입력값이 존재한다면 기본값 대체
         if (requestDto.getNickName() != null) {
             nickName = requestDto.getNickName();
