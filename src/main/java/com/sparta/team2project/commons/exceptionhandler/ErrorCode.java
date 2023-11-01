@@ -43,7 +43,7 @@ public enum ErrorCode {
     EXPIRED_ACCESS_TOKEN(HttpStatus.BAD_REQUEST, "만료된 액세스토큰 입니다"),
     EXPIRED_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "만료된 리프레시토큰 입니다."),
     NOT_ALLOWED_TOKEN(HttpStatus.BAD_REQUEST, "지원하지 않는 토큰 형식입니다."),
-    WRONG_TOKEN(HttpStatus.BAD_REQUEST, "잘못된 토큰입니다.");
+    WRONG_TOKEN(HttpStatus.BAD_REQUEST, "잘못된 토큰입니다."),
     RANDOM_NICKNAME_FAIL(HttpStatus.BAD_REQUEST, "닉네임 생성에 실패하였습니다.");
 
 
