@@ -40,7 +40,7 @@ public class CommentsService {
         Comments comments = new Comments(requestDto, users, posts);
         commentsRepository.save(comments);
 
-        return new MessageResponseDto ("댓글이다", 200);
+        return new MessageResponseDto ("댓글", 200);
     }
 
     // 댓글 조회
