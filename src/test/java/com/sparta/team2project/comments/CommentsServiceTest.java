@@ -99,7 +99,7 @@ public class CommentsServiceTest {
 
         // Then
         System.out.println("댓글 생성");
-        assertEquals("댓글", response.getMsg());
+        assertEquals("댓글이야", response.getMsg());
         assertEquals(HttpServletResponse.SC_OK, response.getStatusCode());
     }
 
