@@ -11,7 +11,9 @@ import java.util.Set;
 
 public interface PostsRepository extends JpaRepository<Posts, Long>,PostsRepositoryCustom {
 
-    List<Posts> findByUsersOrderByCreatedAtDesc(Users users);
+    List<Posts> findByTitleIsNotNullAndContentsIsNotNullAndUsersOrderByCreatedAtDesc(Users users);
 
     List<Posts> findTop10ByTitleIsNotNullAndContentsIsNotNullOrderByLikeNumDescCreatedAtDesc();
+
+    List<Posts> findByUsers(Users users);
 }

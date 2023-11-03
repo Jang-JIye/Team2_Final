@@ -106,6 +106,7 @@ public class PostsService {
     }
 
     // 게시글 전체 조회
+    @Transactional(readOnly = true)
     public Slice<PostResponseDto> getAllPosts(int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
@@ -121,10 +122,11 @@ public class PostsService {
     }
 
     // 사용자별 게시글 전체 조회
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getUserPosts(Users users) {
 
         Users existUser = checkUser(users); // 사용자 조회
-        List<Posts> postsList = postsRepository.findByUsersOrderByCreatedAtDesc(existUser);
+        List<Posts> postsList = postsRepository.findByTitleIsNotNullAndContentsIsNotNullAndUsersOrderByCreatedAtDesc(existUser);
 
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 
@@ -141,6 +143,7 @@ public class PostsService {
     }
 
     // 키워드 검색
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getKeywordPosts(String keyword) {
 
         if (keyword == null || keyword.isEmpty()) { // 키워드가 null값인 경우
@@ -164,6 +167,7 @@ public class PostsService {
     }
 
     // 랭킹 목록 조회(상위 10개)
+    @Transactional(readOnly = true)
     public List<PostResponseDto> getRankPosts() {
 
         // 상위 10개 게시물 가져오기 (좋아요 수 겹칠 시 createdAt 내림차순으로 정렬)
@@ -172,6 +176,7 @@ public class PostsService {
     }
 
     // 사용자가 좋아요 누른 게시물 조회
+    @Transactional(readOnly = true)
     public Page<PostResponseDto> getUserLikePosts(Users users, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
@@ -189,6 +194,7 @@ public class PostsService {
     }
 
     // 사용자가 좋아요 누른 게시물 id만 조회
+    @Transactional(readOnly = true)
     public List<Long> getUserLikePostsId(Users users) {
 
         Users existUser = checkUser(users); // 사용자 조회

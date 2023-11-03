@@ -1,5 +1,7 @@
 package com.sparta.team2project.users;
 
+import com.sparta.team2project.comments.entity.Comments;
+import com.sparta.team2project.comments.repository.CommentsRepository;
 import com.sparta.team2project.commons.Util.RedisUtil;
 import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
@@ -8,8 +10,15 @@ import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
 import com.sparta.team2project.commons.Util.JwtUtil;
 import com.sparta.team2project.email.EmailService;
 import com.sparta.team2project.email.dto.ValidNumberRequestDto;
+import com.sparta.team2project.posts.dto.PostResponseDto;
+import com.sparta.team2project.posts.entity.Posts;
+import com.sparta.team2project.posts.repository.PostsRepository;
 import com.sparta.team2project.profile.Profile;
 import com.sparta.team2project.profile.ProfileRepository;
+import com.sparta.team2project.tags.entity.Tags;
+import com.sparta.team2project.tags.repository.TagsRepository;
+import com.sparta.team2project.tripdate.entity.TripDate;
+import com.sparta.team2project.tripdate.repository.TripDateRepository;
 import com.sparta.team2project.users.dto.LoginRequestDto;
 import com.sparta.team2project.users.dto.SignoutRequestDto;
 import com.sparta.team2project.users.dto.SignupRequestDto;
@@ -21,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -30,6 +40,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final ProfileRepository profileRepository;
+    private final PostsRepository postsRepository;
+    private final TagsRepository tagsRepository;
+    private final TripDateRepository tripDateRepository;
+    private final CommentsRepository commentsRepository;
 
     private final EmailService emailService;
     private final RedisUtil redisUtil;
@@ -117,15 +131,38 @@ public class UserService {
     }
 
 
-    // 회원탈퇴(연관관게 설정 필요) - 미완
+    // 회원탈퇴
     public ResponseEntity<MessageResponseDto> deleteUser(SignoutRequestDto requestDto, String email) {
-        Users users = userRepository.findByEmail(email).orElseThrow(
-                () -> new IllegalArgumentException("등록된 아이디가 없습니다.")
-        );
+        Users users = userRepository.findByEmail(email).orElseThrow(() ->
+                new CustomException(ErrorCode.ID_NOT_FOUND)); //사용자가 존재하지 않음
         if (!passwordEncoder.matches(requestDto.getPassword(), users.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new CustomException(ErrorCode.PASSWORD_NOT_MATCH); // 해당 이메일의 비밀번호가 일치하지 않음
         }
+        if (!requestDto.getEmail().equals(email)) {
+            throw new CustomException(ErrorCode.ID_NOT_MATCH); // 로그인한 이메일과 삭제하려는 이메일이 일치하지 않음
+        }
+        Profile userProfile = profileRepository.findByUsers_Email(email).orElseThrow(() ->
+                new CustomException(ErrorCode.EMAIL_NOT_FOUND)
+        );
+        if (userProfile != null) {
+            profileRepository.delete(userProfile);
+        }
+        List<Posts> userPosts = postsRepository.findByUsers(users);
+        if (userPosts != null) {
+            for (Posts posts : userPosts) {
+                List<Comments> relatedComments = commentsRepository.findByPosts(posts);
+                commentsRepository.deleteAll(relatedComments);
+                List<TripDate> relatedTripDates = tripDateRepository.findByPosts(posts);
+                tripDateRepository.deleteAll(relatedTripDates);
+                List<Tags> relatedTags = tagsRepository.findByPosts(posts);
+                tagsRepository.deleteAll(relatedTags);
+                postsRepository.delete(posts);
+            }
+        }
+
         userRepository.delete(users);
+        // 리프레시 토큰 삭제
+        redisUtil.deleteRefreshToken(email);
         return ResponseEntity.ok(new MessageResponseDto("회원탈퇴 완료", HttpStatus.OK.value()));
     }
 
@@ -155,6 +192,14 @@ public class UserService {
         return ResponseEntity.ok(new MessageResponseDto("로그인 성공", HttpStatus.OK.value()));
     }
 
+    //로그아웃 기능
+    public ResponseEntity<MessageResponseDto> logout(String email, HttpServletResponse response) {
+        // 리프레시 토큰 삭제
+        redisUtil.deleteRefreshToken(email);
+
+        return ResponseEntity.ok(new MessageResponseDto("로그아웃 완료", HttpStatus.OK.value()));
+    }
+
     // 랜덤 닉네임 생성 메서드
     public String createRandomNickName() {
         String[] nickName =
@@ -176,4 +221,5 @@ public class UserService {
         }
         throw new CustomException(ErrorCode.RANDOM_NICKNAME_FAIL);
     }
+
 }

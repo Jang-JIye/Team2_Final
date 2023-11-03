@@ -13,7 +13,6 @@ import com.sparta.team2project.tripdate.entity.TripDate;
 import com.sparta.team2project.tripdate.repository.TripDateRepository;
 import com.sparta.team2project.users.UserRepository;
 import com.sparta.team2project.users.Users;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +33,7 @@ public class SchedulesService {
 
    
     // schedules 생성 메서드
-    public MessageResponseDto  createSchedules(Long tripDateId, CreateSchedulesRequestDto requestDto, Users users) {
+    public List<SchedulesResponseDto>  createSchedules(Long tripDateId, CreateSchedulesRequestDto requestDto, Users users) {
         TripDate tripDate = tripDateRepository.findById(tripDateId).
                 orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND));
 
@@ -42,13 +41,20 @@ public class SchedulesService {
 
         checkAuthority(existUser,tripDate.getPosts().getUsers());
 
-        List<Schedules> schedulesList=new ArrayList<>();
-        for(SchedulesRequestDto schedulesDto: requestDto.getSchedulesList()) {
-            Schedules schedules = new Schedules(tripDate,schedulesDto);
-            schedulesList.add(schedules);
+        List<Schedules> schedulesList = new ArrayList<>();
+        List<SchedulesResponseDto> schedulesResponseDtoList=new ArrayList<>();
+        for(SchedulesRequestDto schedulesRequestDto: requestDto.getSchedulesList()) {
+            Schedules schedulesCreated = new Schedules(tripDate,schedulesRequestDto);
+            // Repository에 저장하기 위한 리스트
+            schedulesList.add(schedulesCreated);
+            // DTO로 반환하기 위한 리스트
+            SchedulesResponseDto schedulesResponseDto = new SchedulesResponseDto(schedulesCreated);
+            schedulesResponseDtoList.add(schedulesResponseDto);
         }
+
+
         schedulesRepository.saveAll(schedulesList);
-        return new MessageResponseDto("일정이 등록 되었습니다.", HttpServletResponse.SC_OK);
+        return schedulesResponseDtoList;
 
     }
 

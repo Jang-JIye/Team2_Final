@@ -65,6 +65,7 @@ public class UserController {
     public ResponseEntity<MessageResponseDto> deleteUser(@RequestBody SignoutRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.deleteUser(requestDto, userDetails.getEmail());
     }
+
     @Operation(summary = "로그인", description = "로그인 api 입니다.")
     @PostMapping("/login")
     public ResponseEntity<MessageResponseDto> login(@RequestBody LoginRequestDto requestDto,
@@ -72,5 +73,9 @@ public class UserController {
         return userService.login(requestDto,response);
     }
 
-
+    @Operation(summary = "로그아웃", description = "로그아웃 api 입니다.")
+    @PostMapping("logout")
+    public ResponseEntity<MessageResponseDto> logout(@AuthenticationPrincipal UserDetailsImpl userDetails, HttpServletResponse response) {
+        return userService.logout(userDetails.getEmail(), response);
+    }
 }

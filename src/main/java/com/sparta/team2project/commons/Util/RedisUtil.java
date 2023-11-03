@@ -42,4 +42,10 @@ public class RedisUtil {
         String key = "refreshToken:" + email; // 사용자 별로 고유한 키 생성
         return getData(key); // 저장된 리프레시 토큰 가져오기
     }
+
+    public void deleteRefreshToken(String email) {
+        String key = "refreshToken:" + email; // 이메일을 사용하여 키 생성
+        // 레디스에서 해당 키를 사용하여 리프레시 토큰을 삭제
+        redisTemplate.delete(key);
+    }
 }

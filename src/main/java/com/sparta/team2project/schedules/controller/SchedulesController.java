@@ -10,7 +10,6 @@ import com.sparta.team2project.schedules.service.SchedulesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class SchedulesController {
     // 세부일정 생성
     @Operation(summary = "여행 일정 생성", description = "여행 일정 생성 api 입니다.")
     @PostMapping("/tripDate/{tripDateId}/schedules")
-    public MessageResponseDto createSchedules(@PathVariable("tripDateId") Long tripDateId,
+    public List<SchedulesResponseDto> createSchedules(@PathVariable("tripDateId") Long tripDateId,
                                                               @RequestBody CreateSchedulesRequestDto requestDtoList,
                                                               @AuthenticationPrincipal UserDetailsImpl userDetails){
         return schedulesService.createSchedules(tripDateId,requestDtoList,userDetails.getUsers());
