@@ -98,25 +98,26 @@ public class ProfileService {
         //프로필이미지 업데이트
         findProfile.getUsers().updateProfileImg(picturesURL);
         profileRepository.save(findProfile);
-        MessageResponseDto responseDto = new MessageResponseDto("마이페이지 수정 성공", 200);
-        ProfileImgResponseDto profileImgResponseDto = new ProfileImgResponseDto(
-                responseDto,
-                picturesName,
-                picturesURL,
-                pictureContentType,
-                pictureSize
-                );
 
         return picturesURL;
     }
 
+    public String defaultProfileImg(Users users) {
+        // 1. 권한 확인
+        Users existUser = checkUser(users); // 유저 확인
+        checkAuthority(existUser, users); //권한 확인
+        Profile findProfile = checkProfile(users); // 프로필 확인
+        String defaultPictureURL = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb0SLv8%2FbtsyLoUxvAs%2FSKsGiOc7TzkebNvH4ZQE9K%2Fimg.png";
+        findProfile.getUsers().updateProfileImg(defaultPictureURL);
+        profileRepository.save(findProfile);
+        return defaultPictureURL;
+    }
     public String readProfileImg(Long userId, Users users) {
-        String filename = users.getProfileImg().substring(users.getProfileImg().lastIndexOf("/") + 1);
         String profileURL = users.getProfileImg();
-//        URL url = amazonS3Client.getUrl(bucket + "/profileImg", filename);
-//        String urlText = "" + url;
         return profileURL;
     }
+
+
 
     @Transactional
     public MultipartFile resizer(String fileName, String fileFormat, MultipartFile originalImage, int width) {

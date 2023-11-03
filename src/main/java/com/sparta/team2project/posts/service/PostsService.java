@@ -126,7 +126,7 @@ public class PostsService {
     public List<PostResponseDto> getUserPosts(Users users) {
 
         Users existUser = checkUser(users); // 사용자 조회
-        List<Posts> postsList = postsRepository.findByTitleIsNotNullAndContentsIsNotNullAndUsersOrderByCreatedAtDesc(existUser);
+        List<Posts> postsList = postsRepository.findByUsersOrderByCreatedAtDesc(existUser);
 
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
 

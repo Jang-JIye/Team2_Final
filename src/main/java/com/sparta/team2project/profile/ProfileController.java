@@ -51,6 +51,14 @@ public class ProfileController {
         }
     }
 
+    // 프로필 수정하기(기본 이미지)
+    @Operation(summary = "마이 페이지 프로필 수정(프로필사진, 기본이미지)", description = "마이 페이지 (프로필사진, 기본이미지)프로필 수정 api 입니다.")
+    @PutMapping("/default-profileImg")
+    public String defaultProfileImg(
+                                   @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            return profileService.defaultProfileImg(userDetails.getUsers());
+    }
+
     // 프로필 사진 조회
     @Operation(summary = "마이 페이지 프로필 사진 조회", description = "마이 페이지 프로필 사진 조회 api 입니다.")
     @GetMapping("/users-profileImg/{userId}")

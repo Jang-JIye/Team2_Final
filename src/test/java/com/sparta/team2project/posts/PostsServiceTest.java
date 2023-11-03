@@ -254,7 +254,7 @@ public class PostsServiceTest {
         mockPostsList.add(new Posts("내용2","제목2", PostCategory.혼자, "부제목1", testUser));
 
         when(userRepository.findByEmail(testUser.getEmail())).thenReturn(Optional.of(testUser));
-        when(postsRepository.findByTitleIsNotNullAndContentsIsNotNullAndUsersOrderByCreatedAtDesc(testUser)).thenReturn(mockPostsList);
+        when(postsRepository.findByUsersOrderByCreatedAtDesc(testUser)).thenReturn(mockPostsList);
 
         // 테스트 메서드 호출
         List<PostResponseDto> response = postsService.getUserPosts(testUser);
