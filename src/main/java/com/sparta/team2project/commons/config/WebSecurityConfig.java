@@ -100,6 +100,7 @@ public class WebSecurityConfig {
 //                                .requestMatchers(HttpMethod.GET, "/api/posts/*/comments/*/replies/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/comments/*/replies/**").permitAll()
 //                                .requestMatchers(HttpMethod.GET, "/api/schedules/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/chat/**").permitAll()
                                 .requestMatchers(HttpMethod.GET).permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**").permitAll() // OpenAPI UI에 대한 엑세스 권한 허용
                                 .requestMatchers("https://kapi.kakao.com", "/v2/user/me", "/kakao/callback/**").permitAll() // OpenAPI UI에 대한 엑세스 권한 허용
