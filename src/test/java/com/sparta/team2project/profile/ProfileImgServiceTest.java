@@ -19,11 +19,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.multipart.MultipartFile;
 import org.testcontainers.containers.localstack.LocalStackContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -45,13 +41,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testcontainers.containers.localstack.LocalStackContainer.Service.S3;
 
-@AutoConfigureMockMvc
-@SpringBootTest
 @Testcontainers
 public class ProfileImgServiceTest {
-
-    @Autowired
-    private MockMvc mvc;
 
     private ProfileRepository profileRepository;
 
@@ -135,12 +126,6 @@ public class ProfileImgServiceTest {
     public Profile MockProfile(){
         return new Profile(MockUsers());
     }
-
-//    public MultipartFile MockFile(){
-//
-//        byte[] fileContent = HexFormat.of().parseHex("e04fd020ea3a6910a2d808002b30309d");
-//        return new CustomMultipartFile("test.jpg", "test.jpg", "image/jpeg", fileContent);
-//    }
 
     public MultipartFile MockFile(int originWidth, int originHeight) throws IOException {
         BufferedImage image = new BufferedImage(originWidth, originHeight, BufferedImage.TYPE_INT_RGB);
