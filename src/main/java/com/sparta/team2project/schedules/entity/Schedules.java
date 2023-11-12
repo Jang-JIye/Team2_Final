@@ -24,7 +24,7 @@ public class Schedules {
     @Column(name = "scheduleCategory", nullable = false)
     private SchedulesCategory schedulesCategory;
     // 비용
-    @Column(name = "costs",nullable = false)
+    @Column(name = "costs",nullable = true)
     private int costs;
     // 관광지 이름
     @Column(name = "placeName", nullable = false)

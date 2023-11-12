@@ -106,7 +106,7 @@ public class PostResponseDto {
         this.subTitle = posts.getSubTitle();
         this.commentNum = commentNum;
         this.postCategory = posts.getPostCategory();
-        this.createdAt = posts.getCreatedAt(); // 이게 굳이 필요한가??
+        this.createdAt = posts.getCreatedAt();
         this.tripDateIdList = tripDateList.stream().map(TripDate::getId).toList();
         this.chosenDateList = tripDateList.stream().map(TripDate::getChosenDate).map(LocalDate::toString).toList();
         this.postsPicturesList = postsPicturesToDto(posts.getPostsPicturesList());

@@ -31,31 +31,45 @@ public class SchedulesService {
     private final TripDateRepository tripDateRepository;
 
 
-   
     // schedules 생성 메서드
-    public List<SchedulesResponseDto>  createSchedules(Long tripDateId, CreateSchedulesRequestDto requestDto, Users users) {
+    public List<SchedulesResponseDto> createSchedules(Long tripDateId, CreateSchedulesRequestDto requestDto, Users users) {
         TripDate tripDate = tripDateRepository.findById(tripDateId).
                 orElseThrow(() -> new CustomException(ErrorCode.PLAN_NOT_FOUND));
 
         Users existUser = checkUser(users);
 
-        checkAuthority(existUser,tripDate.getPosts().getUsers());
+        checkAuthority(existUser, tripDate.getPosts().getUsers());
 
         List<Schedules> schedulesList = new ArrayList<>();
-        List<SchedulesResponseDto> schedulesResponseDtoList=new ArrayList<>();
-        for(SchedulesRequestDto schedulesRequestDto: requestDto.getSchedulesList()) {
-            Schedules schedulesCreated = new Schedules(tripDate,schedulesRequestDto);
+        List<SchedulesResponseDto> schedulesResponseDtoList = new ArrayList<>();
+        for (SchedulesRequestDto schedulesRequestDto : requestDto.getSchedulesList()) {
+            if (schedulesRequestDto.getSchedulesCategory() == null) {
+                throw new CustomException(ErrorCode.CATEGORY_NOT_VALID);
+            }
+            if (schedulesRequestDto.getPlaceName() == null) {
+                throw new CustomException(ErrorCode.PLACE_NAME_NOT_VALID);
+            }
+            if (schedulesRequestDto.getContents() == null) {
+                throw new CustomException(ErrorCode.CONTENT_NOT_VALID);
+            }
+            if (schedulesRequestDto.getTimeSpent() == null) {
+                throw new CustomException(ErrorCode.TIME_SPENT_NOT_VALID);
+            }
+            if (schedulesRequestDto.getX() == null) {
+                throw new CustomException(ErrorCode.COORD_X_NOT_VALID);
+            }
+            if (schedulesRequestDto.getY() == null) {
+                throw new CustomException(ErrorCode.COORD_Y_NOT_VALID);
+            }
+            Schedules schedulesCreated = new Schedules(tripDate, schedulesRequestDto);
             // Repository에 저장하기 위한 리스트
             schedulesList.add(schedulesCreated);
             // DTO로 반환하기 위한 리스트
             SchedulesResponseDto schedulesResponseDto = new SchedulesResponseDto(schedulesCreated);
             schedulesResponseDtoList.add(schedulesResponseDto);
         }
-
-
         schedulesRepository.saveAll(schedulesList);
         return schedulesResponseDtoList;
-
     }
 
 
@@ -66,14 +80,14 @@ public class SchedulesService {
     }
 
     // 유저 유효 확인 메서드
-    private Users checkUser (Users users) {
+    private Users checkUser(Users users) {
         return userRepository.findByEmail(users.getEmail()).
                 orElseThrow(() -> new CustomException(ErrorCode.ID_NOT_MATCH));
     }
 
     // 유저 권한 검사 메서드
-    private void checkAuthority(Users existUser,Users users){
-        if (!existUser.getUserRole().equals(UserRoleEnum.ADMIN)&&!existUser.getEmail().equals(users.getEmail())) {
+    private void checkAuthority(Users existUser, Users users) {
+        if (!existUser.getUserRole().equals(UserRoleEnum.ADMIN) && !existUser.getEmail().equals(users.getEmail())) {
             throw new CustomException(ErrorCode.NOT_ALLOWED);
         }
     }

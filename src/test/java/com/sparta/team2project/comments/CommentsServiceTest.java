@@ -219,28 +219,28 @@ public class CommentsServiceTest {
         assertEquals(ErrorCode.POST_NOT_EXIST, exception.getErrorCode());
     }
 
-    @Test
-    @DisplayName("[비정상 작동]댓글 조회 (존재하지 않는 댓글)")
-    public void commentsListCommentsNotExist() {
-
-        // Given
-        Long postId = 1L;
-        PageRequest pageable = PageRequest.of(0, 2);
-        Posts posts = MockPosts(); // 게시글 정보 초기화
-
-        when(postsRepository.findById(postId)).thenReturn(Optional.of(posts));
-        when(commentsRepository.findByPosts_IdOrderByCreatedAtDesc(postId, pageable)).thenReturn(new SliceImpl<>(Collections.emptyList()));
-
-        // When
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            commentsService.commentsList(postId, pageable);
-        });
-
-        // Then
-        System.out.println("ErrorCode.COMMENTS_NOT_EXIST: " + "존재하지 않는 댓글입니다");
-        System.out.println("exception.getErrorCode(): " + exception.getErrorCode());
-        assertEquals(ErrorCode.COMMENTS_NOT_EXIST, exception.getErrorCode());
-    }
+//    @Test
+//    @DisplayName("[비정상 작동]댓글 조회 (존재하지 않는 댓글)")
+//    public void commentsListCommentsNotExist() {
+//
+//        // Given
+//        Long postId = 1L;
+//        PageRequest pageable = PageRequest.of(0, 2);
+//        Posts posts = MockPosts(); // 게시글 정보 초기화
+//
+//        when(postsRepository.findById(postId)).thenReturn(Optional.of(posts));
+//        when(commentsRepository.findByPosts_IdOrderByCreatedAtDesc(postId, pageable)).thenReturn(new SliceImpl<>(Collections.emptyList()));
+//
+//        // When
+//        CustomException exception = assertThrows(CustomException.class, () -> {
+//            commentsService.commentsList(postId, pageable);
+//        });
+//
+//        // Then
+//        System.out.println("ErrorCode.COMMENTS_NOT_EXIST: " + "존재하지 않는 댓글입니다");
+//        System.out.println("exception.getErrorCode(): " + exception.getErrorCode());
+//        assertEquals(ErrorCode.COMMENTS_NOT_EXIST, exception.getErrorCode());
+//    }
 
     @Test
     @DisplayName("[정상 작동] 내가 쓴 댓글 조회")

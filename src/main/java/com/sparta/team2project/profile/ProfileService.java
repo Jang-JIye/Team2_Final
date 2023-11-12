@@ -8,10 +8,7 @@ import com.sparta.team2project.commons.dto.MessageResponseDto;
 import com.sparta.team2project.commons.entity.UserRoleEnum;
 import com.sparta.team2project.commons.exceptionhandler.CustomException;
 import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
-import com.sparta.team2project.profile.dto.AboutMeRequestDto;
-import com.sparta.team2project.profile.dto.PasswordRequestDto;
-import com.sparta.team2project.profile.dto.ProfileNickNameRequestDto;
-import com.sparta.team2project.profile.dto.ProfileResponseDto;
+import com.sparta.team2project.profile.dto.*;
 import com.sparta.team2project.s3.CustomMultipartFile;
 import com.sparta.team2project.users.UserRepository;
 import com.sparta.team2project.users.Users;
@@ -116,7 +113,6 @@ public class ProfileService {
     }
 
 
-
     @Transactional
     public MultipartFile resizer(MultipartFile originalImage, int targetWidth, int targetHeight) {
 
@@ -142,7 +138,7 @@ public class ProfileService {
             graphics.dispose();
             String fileFormatName = originalImage.getContentType().substring(originalImage.getContentType().lastIndexOf("/") + 1);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write( newImage, fileFormatName, baos );
+            ImageIO.write(newImage, fileFormatName, baos);
             baos.flush();
             byte[] content = baos.toByteArray();
 
@@ -199,6 +195,23 @@ public class ProfileService {
         return ResponseEntity.ok(responseDto);
     }
 
+    // 타사용자 마이페이지 조회하기
+    public ResponseEntity<ProfileResponseDto> getOtherUsersProfile(OtherUsersProfileRequestDto requestDto, Users users) {
+        Users otherUser = checkUser(requestDto.getNickName()); // 타 사용자 확인
+        Users existUser = checkUser(users); // 유저 확인
+        checkAuthority(existUser, users); //권한 확인
+
+        Profile otherUserProfile = profileRepository.findByUsers(otherUser)
+                .orElseThrow(() -> new CustomException(ErrorCode.PROFILE_NOT_EXIST));
+        if (requestDto.getNickName() == null) {
+            throw new CustomException(ErrorCode.NULL_NICKNAME);
+        }
+
+        ProfileResponseDto responseDto = new ProfileResponseDto(otherUser, otherUserProfile);
+
+        return ResponseEntity.ok(responseDto);
+    }
+
     // 사용자 확인 메서드
     private Users checkUser(Users users) {
         return userRepository.findByEmail(users.getEmail()).
@@ -219,6 +232,9 @@ public class ProfileService {
 
     }
 
-
+    private Users checkUser(String nickname) {
+        return userRepository.findByNickName(nickname)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_NICKNAME));
+    }
 
 }

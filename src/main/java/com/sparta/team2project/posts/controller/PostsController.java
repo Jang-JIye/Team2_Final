@@ -64,7 +64,7 @@ public class PostsController {
     // 사용자가 좋아요 누른 게시글 조회
     @Operation(summary = " 사용자가 좋아요 한 게시글 조회 ", description = "사용자가 좋아요 한 게시글 조회 api 입니다.")
     @GetMapping("/posts/like")
-    public ResponseEntity<Page<PostResponseDto>> getUserLikePosts(@RequestParam int page, @RequestParam int size,@AuthenticationPrincipal UserDetailsImpl userDetails){return ResponseEntity.ok(postsService.getUserLikePosts(userDetails.getUsers(),page,size));}
+    public ResponseEntity<Slice<PostResponseDto>> getUserLikePosts(@RequestParam int page, @RequestParam int size,@AuthenticationPrincipal UserDetailsImpl userDetails){return ResponseEntity.ok(postsService.getUserLikePosts(userDetails.getUsers(),page,size));}
 
     // 사용자가 좋아요 누른 게시글 id만 조회
     @Operation(summary = " 사용자가 좋아요 한 게시글 id만 조회 ", description = "사용자가 좋아요 한 게시글 id만 조회 api 입니다.")

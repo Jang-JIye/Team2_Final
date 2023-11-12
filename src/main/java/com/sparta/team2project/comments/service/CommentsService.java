@@ -54,9 +54,9 @@ public class CommentsService {
 
         Slice<Comments> commentsList = commentsRepository.findByPosts_IdOrderByCreatedAtDesc(postId, pageable);
 
-        if (commentsList.isEmpty()) {
-            throw new CustomException(ErrorCode.COMMENTS_NOT_EXIST); // 존재하지 않는 댓글입니다
-        }
+//        if (commentsList.isEmpty()) {
+//            throw new CustomException(ErrorCode.COMMENTS_NOT_EXIST); // 존재하지 않는 댓글입니다
+//        }
 
         List<CommentsResponseDto> commentsResponseDtoList = new ArrayList<>();
 
@@ -84,9 +84,9 @@ public class CommentsService {
 
         Slice<Comments> commentsMeList = commentsRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable);
 
-        if (commentsMeList.isEmpty()) {
-            throw new CustomException(ErrorCode.COMMENTS_NOT_EXIST); // 존재하지 않는 댓글입니다
-        }
+//        if (commentsMeList.isEmpty()) {
+//            throw new CustomException(ErrorCode.COMMENTS_NOT_EXIST); // 존재하지 않는 댓글입니다
+//        }
 
         List<CommentsMeResponseDto> CommentsMeResponseDtoList = new ArrayList<>();
 

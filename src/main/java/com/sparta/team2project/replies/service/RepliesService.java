@@ -78,9 +78,9 @@ public class RepliesService {
 
         Slice<Replies> repliesMeList = repliesRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable);
 
-        if (repliesMeList.isEmpty()) {
-            throw new CustomException(ErrorCode.REPLIES_NOT_EXIST); // 존재하지 않는 대댓글입니다
-        }
+//        if (repliesMeList.isEmpty()) {
+//            throw new CustomException(ErrorCode.REPLIES_NOT_EXIST); // 존재하지 않는 대댓글입니다
+//        }
 
         List<RepliesMeResponseDto> RepliesMeResponseDtoList = new ArrayList<>();
 

@@ -15,4 +15,7 @@ public class KakaoUserInfoDto {
         this.nickname = nickname;
         this.email = email;
     }
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

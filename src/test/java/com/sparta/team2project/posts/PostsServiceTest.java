@@ -396,7 +396,7 @@ public class PostsServiceTest {
 
 
         // 테스트하려는 메서드를 실행합니다.
-        Page<PostResponseDto> result = postsService.getUserLikePosts(user,page, size);
+        Slice<PostResponseDto> result = postsService.getUserLikePosts(user,page, size);
 
         // 결과를 확인합니다.
         assertNotNull(result);

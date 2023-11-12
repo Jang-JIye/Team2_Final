@@ -11,6 +11,7 @@ import com.sparta.team2project.commons.exceptionhandler.CustomException;
 import com.sparta.team2project.commons.exceptionhandler.ErrorCode;
 import com.sparta.team2project.posts.dto.PostsPicturesResponseDto;
 import com.sparta.team2project.posts.dto.PostsPicturesUploadResponseDto;
+import com.sparta.team2project.posts.entity.PostCategory;
 import com.sparta.team2project.posts.entity.PostsPictures;
 import com.sparta.team2project.posts.dto.*;
 import com.sparta.team2project.posts.entity.Posts;
@@ -70,9 +71,11 @@ public class PostsService {
 
         Users existUser = checkUser(users); // 사용자 조회
 
+        PostCategory postCategory = checkCategory(totalRequestDto.getPostCategory()); // 카테고리 null check
+
         Posts posts = new Posts(totalRequestDto.getContents(),
                 totalRequestDto.getTitle(),
-                totalRequestDto.getPostCategory(),
+                postCategory,
                 totalRequestDto.getSubTitle(),
                 existUser);
         postsRepository.save(posts);  //posts 저장
@@ -180,20 +183,17 @@ public class PostsService {
 
     // 사용자가 좋아요 누른 게시물 조회
     @Transactional(readOnly = true)
-    public Page<PostResponseDto> getUserLikePosts(Users users, int page, int size) {
+    public Slice<PostResponseDto> getUserLikePosts(Users users, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
         Users existUser = checkUser(users); // 사용자 조회
         Page<Posts> postsPage = postsRepository.findUsersLikePosts(existUser, pageable);
 
-        if (postsPage.isEmpty()) {
-            throw new CustomException(ErrorCode.POST_NOT_EXIST);
-        }
         List<PostResponseDto> postResponseDtoList = new ArrayList<>();
         for (Posts posts : postsPage) {
             postResponseDtoList.add(new PostResponseDto(posts, posts.getUsers()));
         }
-        return new PageImpl<>(postResponseDtoList, pageable, postsPage.getTotalElements());
+        return new SliceImpl<>(postResponseDtoList, pageable, postsPage.hasNext());
     }
 
     // 사용자가 좋아요 누른 게시물 id만 조회
@@ -203,9 +203,6 @@ public class PostsService {
         Users existUser = checkUser(users); // 사용자 조회
         List<Long> idList = postsRepository.findUsersLikePostsId(existUser);
 
-        if (idList.isEmpty()) {
-            throw new CustomException(ErrorCode.POST_NOT_EXIST);
-        }
         return idList;
     }
 
@@ -290,6 +287,16 @@ public class PostsService {
             throw new CustomException(ErrorCode.NOT_ALLOWED);
         }
     }
+
+    // 카테고리 null 체크
+    private PostCategory checkCategory(PostCategory postCategory) {
+        if (postCategory == null) {
+            throw new CustomException(ErrorCode.CATEGORY_IS_BLANK);
+        } else {
+            return postCategory;
+        }
+    }
+
 
     // 게시글 조회 메서드
     private Posts checkPosts(Long id) {

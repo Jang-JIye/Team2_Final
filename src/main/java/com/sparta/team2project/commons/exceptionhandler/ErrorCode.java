@@ -27,8 +27,15 @@ public enum ErrorCode {
     PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "잘못된 패스워드입니다."),
     EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND, "등록되지 않은 이메일입니다."),
     POST_NOT_SEARCH(HttpStatus.BAD_REQUEST, "검색결과가 없습니다."),
+    CATEGORY_IS_BLANK(HttpStatus.BAD_REQUEST, "게시글 카테고리가 입력되지 않았습니다."),
     COMMENTS_NOT_FOUND(HttpStatus.NOT_FOUND,"해당 댓글은 존재하지 않습니다."),
     UNABLE_TO_CONVERT(HttpStatus.BAD_REQUEST,"파일 리사이즈에 실패했습니다."),
+    CATEGORY_NOT_VALID(HttpStatus.BAD_REQUEST, "세부일정 카테고리가 입력되지 않았습니다."),
+    PLACE_NAME_NOT_VALID(HttpStatus.BAD_REQUEST, "장소가 입력되지 않았습니다."),
+    CONTENT_NOT_VALID(HttpStatus.BAD_REQUEST, "내용이 입력되지 않았습니다."),
+    TIME_SPENT_NOT_VALID(HttpStatus.BAD_REQUEST, "소요시간이 입력되지 않았습니다."),
+    COORD_X_NOT_VALID(HttpStatus.BAD_REQUEST, "위도값이 입력되지 않았습니다."),
+    COORD_Y_NOT_VALID(HttpStatus.BAD_REQUEST, "경도값이 입력되지 않았습니다."),
 
     //ValidNumber(이메일 인증 관련)
     INVALID_VALID_TOKEN(HttpStatus.BAD_REQUEST, "이메일로 인증번호를 찾을 수 없습니다."),
@@ -44,7 +51,10 @@ public enum ErrorCode {
     EXPIRED_REFRESH_TOKEN(HttpStatus.BAD_REQUEST, "만료된 리프레시토큰 입니다."),
     NOT_ALLOWED_TOKEN(HttpStatus.BAD_REQUEST, "지원하지 않는 토큰 형식입니다."),
     WRONG_TOKEN(HttpStatus.BAD_REQUEST, "잘못된 토큰입니다."),
-    RANDOM_NICKNAME_FAIL(HttpStatus.BAD_REQUEST, "닉네임 생성에 실패하였습니다.");
+    RANDOM_NICKNAME_FAIL(HttpStatus.BAD_REQUEST, "닉네임 생성에 실패하였습니다."),
+    NOT_EXIST_NICKNAME(HttpStatus.BAD_REQUEST, "이 회원은 존재하지 않습니다."),
+    NULL_NICKNAME(HttpStatus.BAD_REQUEST, "닉네임을 확인하지 못하였습니다. 보내는 값을 확인해주세요.");
+
 
 
 

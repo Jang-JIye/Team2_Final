@@ -1,5 +1,11 @@
 # Team2 최종 프로젝트 "갈래"
 
+프론트엔드:
+* 홍미경(프론트엔드 리더)
+* 전하영(프론트엔드 멤버)
+* 허원(프론트엔드 멤버)
+> 프론트엔드에 대한 설명은 다음 링크를 참조: https://github.com/hyj01230/gallae_fe
+
 백엔드: 
 * 장지예(프로젝트 리더): 로그인/회원가입, 소셜로그인, 이메일 인증 기능(Redis)
 * 김정환(프로젝트 총무): 게시글 CRUD, 검색, 좋아요 랭킹 정렬, Swagger UI
@@ -229,6 +235,6 @@ clean.doLast {
 
 
 ### 프로젝트 상세정보:
-배포된 웹 사이트: https://gallae-trip.com
-프로젝트 기획 문서(노션): https://wind-song-8bf.notion.site/2-2571118e6ef94d2082bc372fca7260d8
+- 배포된 웹 사이트: [https://gallae-trip.com](https://gallae-fe.vercel.app/)
+- 프로젝트 기획 문서(노션): https://wind-song-8bf.notion.site/2-2571118e6ef94d2082bc372fca7260d8
 

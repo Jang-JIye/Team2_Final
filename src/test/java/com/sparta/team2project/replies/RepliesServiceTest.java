@@ -289,26 +289,26 @@ public class RepliesServiceTest {
         assertEquals(mockRepliesList.size(), response.getNumberOfElements());
     }
 
-    @Test
-    @DisplayName("[비정상 작동] 내가 쓴 대댓글 조회 (존재하지 않는 대댓글)")
-    public void repliesMeListRepliesNotExist() {
-
-        // Given
-        Users users = MockUsers1(); // 사용자 정보 초기화
-        PageRequest pageable = PageRequest.of(0, 2);
-
-        when(repliesRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable)).thenReturn(new SliceImpl<>(Collections.emptyList()));
-
-        // When
-        CustomException exception = assertThrows(CustomException.class, () -> {
-            repliesService.repliesMeList(users, pageable);
-        });
-
-        // Then
-        System.out.println("ErrorCode.REPLIES_NOT_EXIST: " + "존재하지 않는 대댓글입니다");
-        System.out.println("exception.getErrorCode(): " + exception.getErrorCode());
-        assertEquals(ErrorCode.REPLIES_NOT_EXIST, exception.getErrorCode());
-    }
+//    @Test
+//    @DisplayName("[비정상 작동] 내가 쓴 대댓글 조회 (존재하지 않는 대댓글)")
+//    public void repliesMeListRepliesNotExist() {
+//
+//        // Given
+//        Users users = MockUsers1(); // 사용자 정보 초기화
+//        PageRequest pageable = PageRequest.of(0, 2);
+//
+//        when(repliesRepository.findAllByAndEmailOrderByCreatedAtDesc(users.getEmail(), pageable)).thenReturn(new SliceImpl<>(Collections.emptyList()));
+//
+//        // When
+//        CustomException exception = assertThrows(CustomException.class, () -> {
+//            repliesService.repliesMeList(users, pageable);
+//        });
+//
+//        // Then
+//        System.out.println("ErrorCode.REPLIES_NOT_EXIST: " + "존재하지 않는 대댓글입니다");
+//        System.out.println("exception.getErrorCode(): " + exception.getErrorCode());
+//        assertEquals(ErrorCode.REPLIES_NOT_EXIST, exception.getErrorCode());
+//    }
 
     @Test
     @DisplayName("[정상 작동] 본인이 쓴 대댓글 수정 USER")

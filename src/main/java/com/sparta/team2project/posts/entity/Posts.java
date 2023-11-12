@@ -27,14 +27,13 @@ public class Posts extends TimeStamped {
     @Column(nullable = false)
     private int viewNum;
 
-
     @Column(nullable = true)
     private String title;
 
     @Column(nullable = true,length = 500)
     private String contents;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String subTitle;
 
     @Column(nullable = false)
