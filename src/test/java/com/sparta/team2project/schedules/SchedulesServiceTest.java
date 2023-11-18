@@ -57,6 +57,8 @@ public class SchedulesServiceTest {
         when(schedulesRequestDto.getContents()).thenReturn("해돋이 카페");
         when(schedulesRequestDto.getTimeSpent()).thenReturn("3시간");
         when(schedulesRequestDto.getReferenceURL()).thenReturn("www.blog.com");
+        when(schedulesRequestDto.getX()).thenReturn("3.256");
+        when(schedulesRequestDto.getY()).thenReturn("4.236");
         return schedulesRequestDto;
     }
 

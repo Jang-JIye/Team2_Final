@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Slf4j(topic = "JWT 검증 및 인가")
 @RequiredArgsConstructor
-@Component("AuthFilter")
+//@Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsServiceImpl userDetailsService;
